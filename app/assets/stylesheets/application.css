@@ -13,3 +13,48 @@
  *= require_tree .
  *= require_self
  */
+/* Add this section for grid layout */
+.products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.product {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    flex: 0 0 30%;
+    /* 30% width for each product, adjust as needed */
+    box-sizing: border-box;
+}
+
+.product h2 {
+    margin-top: 0;
+}
+
+.product img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    width: 100px;
+    /* Adjust the size of the image as needed */
+    height: 100px;
+    /* Adjust the size of the image as needed */
+}
+
+/* Optional: Add some responsive styles */
+@media (max-width: 768px) {
+    .product {
+        flex: 0 0 48%;
+        /* 2 products per row on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .product {
+        flex: 0 0 100%;
+        /* 1 product per row on very small screens */
+    }
+}

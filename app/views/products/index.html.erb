@@ -1,0 +1,12 @@
+<h1>Available Products</h1>
+
+<div class="products">
+  <% @products.each do |product| %>
+    <div class="product">
+      <h2><%= link_to product.name, product_path(product) %></h2>
+      <p><%= product.description %></p>
+      <p>Price: <%= number_to_currency(product.price) %></p>
+      <%= image_tag product.img_src if product.img_src.present? %>
+    </div>
+  <% end %>
+</div>
