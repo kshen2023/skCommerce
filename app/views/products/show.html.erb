@@ -1,7 +1,10 @@
 <h1><%= @product.name %></h1>
+<div>
+  <%= image_tag @product.img_src, style: "width: 500px; height: 500px;" if @product.img_src.present? %>
+</div>
 
 <p><%= @product.description %></p>
 <p>Price: <%= number_to_currency(@product.price) %></p>
-<%= image_tag @product.img_src if @product.img_src.present? %>
+
 
 <%= link_to 'Back to Products', products_path %>

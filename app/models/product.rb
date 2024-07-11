@@ -8,4 +8,6 @@ class Product < ApplicationRecord
   def self.ransackable_associations(auth_object = nil)
     ["sub_category"]
   end
+  scope :new_products, -> { where('created_at >= ?', 3.days.ago) }
+  scope :recently_updated, -> { where('updated_at >= ? AND created_at < ?', 3.days.ago, 3.days.ago) }
 end

@@ -10,7 +10,13 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <%= yield %>
-  </body>
+ <body>
+  <%= link_to 'Home', root_path %> |
+  <%= link_to 'New Products', new_products_products_path %> |
+  <%= link_to 'Recently Updated Products', recently_updated_products_path %> |
+<%= link_to 'Admin', admin_root_path %>
+
+
+  <%= yield %>
+</body>
 </html>
