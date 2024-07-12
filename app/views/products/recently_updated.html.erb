@@ -1,3 +1,4 @@
+<!-- app/views/products/recently_updated.html.erb -->
 <h1>Recently Updated Products</h1>
 
 <div class="products">
@@ -6,11 +7,11 @@
       <h2><%= link_to product.name, product_path(product) %></h2>
       <p><%= product.description %></p>
       <p>Price: <%= number_to_currency(product.price) %></p>
-      <%= image_tag product.img_src if product.img_src.present? %>
+      <% if product.img_src.present? %>
+        <%= image_tag product.img_src %>
+      <% end %>
     </div>
   <% end %>
 </div>
 
-<div class="pagination">
-  <%= paginate @products %>
-</div>
+<%= paginate @products %>

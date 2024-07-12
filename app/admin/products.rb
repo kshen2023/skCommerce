@@ -1,6 +1,17 @@
 ActiveAdmin.register Product do
   permit_params :name, :description, :product_link, :price, :img_src, :sub_category_id
 
+  controller do
+    def update
+      super do |success, failure|
+        success.html do
+          resource.touch if resource.changed?  # 如果资源有变更，手动更新时间戳
+          redirect_to admin_products_path
+        end
+      end
+    end
+  end
+
   index do
     selectable_column
     id_column
