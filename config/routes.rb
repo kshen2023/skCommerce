@@ -25,7 +25,8 @@ Rails.application.routes.draw do
   get 'categories/show'
   get 'products/index'
   get 'products/show'
-
+  resource :about_page, only: :show, path: 'about'
+  resource :contact_page, only: :show, path: 'contact'
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
@@ -42,7 +43,8 @@ Rails.application.routes.draw do
   resources :categories, only: [:index, :show] do
     resources :products, only: [:index, :show]
   end
-
+  # resources :about_pages, only: [:show]
+  # resources :contact_pages, only: [:show]
   # resources :products, only: [:index, :show] do
   #   collection do
   #     get 'on_sale'

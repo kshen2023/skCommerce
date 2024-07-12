@@ -15,7 +15,12 @@ CSV.foreach(csv_file_path, headers: true) do |row|
   category_name = row['category']
   sub_category_name = row['sub-category']
   product_name = row['name']
-  product_price = row['price']
+  if row['price'].present?
+    product_price = row['price'].gsub(/[^\d\.]/, '').to_f
+  else
+    # 处理 'price' 列为空的情况
+    product_price = 0.0  # 或者其他默认值
+  end
   product_description = row['description']
   product_link = row['product-link']
   img_src = row['img-src']

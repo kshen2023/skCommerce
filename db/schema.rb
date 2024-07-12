@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_10_174854) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_12_034714) do
   create_table "about_pages", force: :cascade do |t|
     t.string "title"
     t.text "content"
@@ -63,7 +63,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_10_174854) do
     t.string "name"
     t.text "description"
     t.string "product_link"
-    t.decimal "price"
+    t.string "price"
     t.string "img_src"
     t.integer "sub_category_id", null: false
     t.datetime "created_at", null: false
