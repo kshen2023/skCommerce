@@ -11,12 +11,25 @@
   </head>
 
  <body>
-  <%= link_to 'Home', root_path %> |
-  <%= link_to 'About', about_page_path %> |
-  <%= link_to 'Contact', contact_page_path %> |
-  <%= link_to 'New Products', new_products_products_path %> |
-  <%= link_to 'Recently Updated Products', recently_updated_products_path %> |
-<%= link_to 'Admin', admin_root_path %>
+
+  <header>
+    <nav>
+      <%= link_to 'Home', root_path %> |
+      <%= link_to 'About', about_page_path %> |
+      <%= link_to 'Contact', contact_page_path %> |
+      <%= link_to 'New Products', new_products_products_path %> |
+      <%= link_to 'Recently Updated Products', recently_updated_products_path %> |
+      <%= link_to 'Admin', admin_root_path %> |
+      <div class="dropdown">
+      
+        <div class="dropdown-content">
+          <% Category.all.each do |category| %>
+            <%= link_to category.name, category_path(category) %>
+          <% end %>
+        </div>
+      </div>
+    </nav>
+  </header>
 
 
   <%= yield %>
