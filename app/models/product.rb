@@ -1,5 +1,6 @@
 class Product < ApplicationRecord
   belongs_to :sub_category
+  has_many :items
   validates :name, uniqueness: { scope: :sub_category_id }, allow_nil: true
 
   def self.ransackable_attributes(auth_object = nil)
