@@ -23,10 +23,23 @@ class CartsController < ApplicationController
     redirect_to cart_path, notice: 'Product removed from cart.'
   end
 
+  def update_item
+    item = @cart.items.find(params[:id])
+    if item.update(item_params)
+      redirect_to cart_path, notice: 'Product quantity updated.'
+    else
+      redirect_to cart_path, alert: 'Failed to update product quantity.'
+    end
+  end
+
   private
 
   def set_cart
     @cart = Cart.find_or_create_by(id: session[:cart_id])
     session[:cart_id] = @cart.id
+  end
+
+  def item_params
+    params.require(:item).permit(:quantity)
   end
 end

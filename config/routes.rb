@@ -76,7 +76,12 @@ Rails.application.routes.draw do
   resources :categories, only: [:index, :show] do
     resources :products, only: [:index, :show]
   end
-
+  resource :cart, only: [:show] do
+    #dont know why delete method not working, might as well change delete to get
+ get 'remove_item/:product_id', to: 'carts#remove_item', as: 'remove_item'
+   post 'add_item/:product_id', to: 'carts#add_item', as: 'add_item'
+   patch 'update_item/:id', to: 'carts#update_item', as: 'update_item'
+ end
   # Products routes
   resources :products do
     collection do
@@ -96,10 +101,7 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
 
   # Cart routes
-  resource :cart, only: [:show] do
-    post 'add_item/:product_id', to: 'carts#add_item', as: 'add_item'
-    delete 'remove_item/:product_id', to: 'carts#remove_item', as: 'remove_item'
-  end
+
 
   # Root route
   root 'products#index'
