@@ -1,0 +1,27 @@
+<h1>Checkout</h1>
+
+<%= form_with model: @order, url: orders_path do |f| %>
+  <h2>please fill in your data</h2>
+  <%= fields_for @customer do |customer_form| %>
+  <%= customer_form.hidden_field :id %> 
+    <%= customer_form.label :name %>
+    <%= customer_form.text_field :name %>
+
+    <%= customer_form.label :email %>
+    <%= customer_form.email_field :email %>
+
+    <%= customer_form.label :address %>
+    <%= customer_form.text_field :address %>
+
+    <%= customer_form.label :province %>
+    <%= customer_form.text_field :province %>
+
+    <%= customer_form.label :phone %>
+    <%= customer_form.phone_field :phone %>
+  <% end %>
+
+
+
+  <%= f.submit "submit" %>
+  
+<% end %>

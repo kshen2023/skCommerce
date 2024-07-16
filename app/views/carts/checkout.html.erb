@@ -1,0 +1,58 @@
+<!-- app/views/carts/checkout.html.erb -->
+<h1>Checkout</h1>
+
+<%= form_with url: complete_checkout_cart_path, local: true do |f| %>
+  <h2>Customer Information</h2>
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+  <div>
+    <%= f.label :email %>
+    <%= f.email_field :email %>
+  </div>
+  <div>
+    <%= f.label :address %>
+    <%= f.text_field :address %>
+  </div>
+  <div>
+    <%= f.label :city %>
+    <%= f.text_field :city %>
+  </div>
+  <div>
+    <%= f.label :province %>
+    <%= f.select :province, options_for_select(['Ontario', 'Quebec', 'British Columbia', 'Alberta', ...]) %>
+  </div>
+  <div>
+    <%= f.label :postal_code %>
+    <%= f.text_field :postal_code %>
+  </div>
+  <div>
+    <%= f.label :phone %>
+    <%= f.telephone_field :phone %>
+  </div>
+
+  <h2>Order Summary</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @cart.items.each do |item| %>
+        <tr>
+          <td><%= item.product.name %></td>
+          <td><%= item.quantity %></td>
+          <td><%= number_to_currency(item.product.price * item.quantity) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div>
+    <%= f.submit 'Complete Checkout' %>
+  </div>
+<% end %>

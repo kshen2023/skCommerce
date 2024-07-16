@@ -72,6 +72,9 @@
 #   # root "posts#index"
 # end
 Rails.application.routes.draw do
+
+  resources :orders, only: [:new, :create, :show]
+
   # Categories routes
   resources :categories, only: [:index, :show] do
     resources :products, only: [:index, :show]

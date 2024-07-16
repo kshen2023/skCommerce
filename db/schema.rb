@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_13_035703) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_16_030711) do
   create_table "about_pages", force: :cascade do |t|
     t.string "title"
     t.text "content"
@@ -64,6 +64,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_13_035703) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "customers", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.string "address"
+    t.string "city"
+    t.string "province"
+    t.string "postal_code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "phone"
+  end
+
   create_table "items", force: :cascade do |t|
     t.integer "product_id"
     t.integer "quantity"
@@ -73,17 +85,44 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_13_035703) do
     t.index ["cart_id"], name: "index_items_on_cart_id"
   end
 
+  create_table "order_items", force: :cascade do |t|
+    t.integer "order_id", null: false
+    t.integer "item_id", null: false
+    t.integer "quantity"
+    t.decimal "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_id"], name: "index_order_items_on_item_id"
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "customer_id", null: false
+    t.decimal "total"
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_orders_on_customer_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.string "product_link"
-    t.decimal "price", precision: 10, scale: 2
+    t.string "price"
     t.string "img_src"
     t.integer "sub_category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name", "sub_category_id"], name: "index_products_on_name_and_sub_category_id", unique: true, where: "name IS NOT NULL"
     t.index ["sub_category_id"], name: "index_products_on_sub_category_id"
+  end
+
+  create_table "provinces", force: :cascade do |t|
+    t.string "province_name"
+    t.string "province_description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "sub_categories", force: :cascade do |t|
@@ -96,7 +135,20 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_13_035703) do
     t.index ["name", "category_id"], name: "index_sub_categories_on_name_and_category_id", unique: true, where: "name IS NOT NULL"
   end
 
+  create_table "taxes", force: :cascade do |t|
+    t.string "province"
+    t.decimal "gst"
+    t.decimal "pst"
+    t.decimal "hst"
+    t.date "start_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   add_foreign_key "items", "carts"
+  add_foreign_key "order_items", "items"
+  add_foreign_key "order_items", "orders"
+  add_foreign_key "orders", "customers"
   add_foreign_key "products", "sub_categories"
   add_foreign_key "sub_categories", "categories"
 end

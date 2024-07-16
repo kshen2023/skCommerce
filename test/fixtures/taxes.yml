@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  province: MyString
+  gst: 9.99
+  pst: 9.99
+  hst: 9.99
+  start_date: 2024-07-13
+
+two:
+  province: MyString
+  gst: 9.99
+  pst: 9.99
+  hst: 9.99
+  start_date: 2024-07-13

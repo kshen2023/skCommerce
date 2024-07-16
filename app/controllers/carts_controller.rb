@@ -32,6 +32,24 @@ class CartsController < ApplicationController
     end
   end
 
+  def checkout
+    @customer = Customer.new
+  end
+
+  def complete_checkout
+    @customer = Customer.new(customer_params)
+    if @customer.save
+      order = @customer.orders.create(total: @cart.total_amount, status: 'pending')
+      @cart.items.each do |item|
+        order.order_items.create(product: item.product, quantity: item.quantity, price: item.product.price)
+      end
+      session[:cart_id] = nil
+      redirect_to order_path(order), notice: 'Checkout completed successfully.'
+    else
+      render :checkout, alert: 'Failed to complete checkout.'
+    end
+  end
+
   private
 
   def set_cart
@@ -41,5 +59,9 @@ class CartsController < ApplicationController
 
   def item_params
     params.require(:item).permit(:quantity)
+  end
+
+  def customer_params
+    params.require(:customer).permit(:name, :email, :address, :city, :province, :postal_code, :phone)
   end
 end
