@@ -7,7 +7,8 @@
       <th>Product</th>
       <th>Quantity</th>
       <th>Price</th>
-      <th>Actions</th>
+      <th>Total</th>
+      <th>Remove Itemss</th>
     </tr>
   </thead>
   <tbody>
@@ -20,7 +21,9 @@
             <%= f.submit 'Update' %>
           <% end %>
         </td>
-        <td><%= number_to_currency(item.product.price * item.quantity) %></td>
+    <td><%= number_to_currency(item.product.price.to_d) %></td>
+    <td><%= number_to_currency(item.product.price.to_d * item.quantity) %></td>
+
         <td>
          <td>
   <%= link_to 'Remove', remove_item_cart_path(product_id: item.product.id), method: :delete %>
@@ -32,10 +35,6 @@
   </tbody>
 </table>
 
-<h2>Total: <%= number_to_currency(@cart.items.sum { |item| item.product.price * item.quantity }) %></h2>
+<h2>Total: <%= number_to_currency(@cart.items.sum { |item| item.product.price.to_d * item.quantity }) %></h2>
 
-<% if @order %>
-  <%= link_to 'Proceed to Checkout', order_path(@order), class: 'btn btn-primary' %>
-<% else %>
-  <%= link_to 'Proceed to Checkout', new_order_path, class: 'btn btn-primary' %>
-<% end %>
+<%= link_to 'Proceed to Checkout',  new_order_path, class: 'btn btn-primary' %>
