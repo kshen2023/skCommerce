@@ -10,5 +10,9 @@ class Product < ApplicationRecord
     ["sub_category"]
   end
   scope :new_products, -> { where('created_at >= ?', 3.days.ago) }
-  scope :recently_updated, -> { where('updated_at >= ? AND created_at < ?', 3.days.ago, 3.days.ago) }
+  scope :recently_updated, -> {
+    where('updated_at >= ?', 3.days.ago)
+      .where('updated_at > created_at')
+  }
+
 end
