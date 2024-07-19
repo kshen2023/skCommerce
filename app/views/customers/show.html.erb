@@ -1,0 +1,36 @@
+<!-- app/views/customers/show.html.erb -->
+
+<h1>Details for <%= @customer.name %></h1>
+
+<table class="table table-bordered">
+  <tbody>
+    <tr>
+      <th>Name</th>
+      <td><%= @customer.name %></td>
+    </tr>
+    <tr>
+      <th>Email</th>
+      <td><%= @customer.email %></td>
+    </tr>
+    <tr>
+      <th>Province Name</th>
+      <td><%= @customer.province.province_name if @customer.province %></td>
+    </tr>
+    <tr>
+      <th>Address</th>
+      <td><%= @customer.address %></td>
+    </tr>
+    <tr>
+      <th>Phone</th>
+      <td><%= @customer.phone%></td>
+    </tr>
+    <tr>
+      <th>City</th>
+      <td><%= @customer.city%></td>
+    </tr>
+  </tbody>
+</table>
+
+<%= link_to 'Back', customers_path, class: 'btn btn-secondary' %>
+
+<%= link_to 'Delete', customer_path(@customer), method: :delete, data: { confirm: 'Are you sure you want to delete this customer?' }, class: 'btn btn-danger' %>

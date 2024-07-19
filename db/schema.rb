@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_16_030711) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_19_192147) do
   create_table "about_pages", force: :cascade do |t|
     t.string "title"
     t.text "content"
@@ -44,6 +44,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_16_030711) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "cart_items", force: :cascade do |t|
+    t.integer "cart_id", null: false
+    t.integer "product_id", null: false
+    t.integer "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cart_id"], name: "index_cart_items_on_cart_id"
+    t.index ["product_id"], name: "index_cart_items_on_product_id"
+  end
+
   create_table "carts", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -69,30 +79,20 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_16_030711) do
     t.string "email"
     t.string "address"
     t.string "city"
-    t.string "province"
     t.string "postal_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "phone"
-  end
-
-  create_table "items", force: :cascade do |t|
-    t.integer "product_id"
-    t.integer "quantity"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "cart_id", null: false
-    t.index ["cart_id"], name: "index_items_on_cart_id"
+    t.integer "province_id"
+    t.index ["province_id"], name: "index_customers_on_province_id"
   end
 
   create_table "order_items", force: :cascade do |t|
     t.integer "order_id", null: false
-    t.integer "item_id", null: false
     t.integer "quantity"
     t.decimal "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["item_id"], name: "index_order_items_on_item_id"
     t.index ["order_id"], name: "index_order_items_on_order_id"
   end
 
@@ -120,9 +120,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_16_030711) do
 
   create_table "provinces", force: :cascade do |t|
     t.string "province_name"
-    t.string "province_description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "gst_rate"
+    t.decimal "hst_rate"
+    t.decimal "pst_rate"
+    t.decimal "qst_rate"
   end
 
   create_table "sub_categories", force: :cascade do |t|
@@ -135,20 +138,24 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_16_030711) do
     t.index ["name", "category_id"], name: "index_sub_categories_on_name_and_category_id", unique: true, where: "name IS NOT NULL"
   end
 
-  create_table "taxes", force: :cascade do |t|
-    t.string "province"
-    t.decimal "gst"
-    t.decimal "pst"
-    t.decimal "hst"
-    t.date "start_date"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+  # create_table "taxes", force: :cascade do |t|
+  #   t.string "province"
+  #   t.decimal "gst"
+  #   t.decimal "pst"
+  #   t.decimal "hst"
+  #   t.date "start_date"
+  #   t.datetime "created_at", null: false
+  #   t.datetime "updated_at", null: false
+  #   t.integer "province_id"
+  #   t.index ["province_id"], name: "index_taxes_on_province_id"
+  # end
 
-  add_foreign_key "items", "carts"
-  add_foreign_key "order_items", "items"
+  add_foreign_key "cart_items", "carts"
+  add_foreign_key "cart_items", "products"
+  add_foreign_key "customers", "provinces"
   add_foreign_key "order_items", "orders"
   add_foreign_key "orders", "customers"
   add_foreign_key "products", "sub_categories"
   add_foreign_key "sub_categories", "categories"
+  add_foreign_key "taxes", "provinces"
 end

@@ -73,18 +73,18 @@
 # end
 Rails.application.routes.draw do
 
-  resources :orders, only: [:new, :create, :show]
+  post 'complete_checkout', to: 'carts#complete_checkout', as: 'complete_checkout'
 
+  resources :orders, only: [:new, :create, :show]
+  resources :customers, only: [:new, :create, :show]
   # Categories routes
   resources :categories, only: [:index, :show] do
     resources :products, only: [:index, :show]
   end
   resource :cart, only: [:show] do
-    #dont know why delete method not working, might as well change delete to get
- get 'remove_item/:product_id', to: 'carts#remove_item', as: 'remove_item'
-   post 'add_item/:product_id', to: 'carts#add_item', as: 'add_item'
-   patch 'update_item/:id', to: 'carts#update_item', as: 'update_item'
- end
+    post 'add_item', to: 'carts#add_item'
+    delete 'remove_item', to: 'carts#remove_item'
+  end
   # Products routes
   resources :products do
     collection do

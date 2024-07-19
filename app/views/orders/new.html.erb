@@ -1,27 +1,34 @@
-<h1>Checkout</h1>
+<h2>Customer Information</h2>
+<p><strong>Name:</strong> <%= @customer.name %></p>
+<p><strong>Email:</strong> <%= @customer.email %></p>
+<p><strong>Address:</strong> <%= @customer.address %></p>
+<p><strong>Province:</strong> <%= @customer.province.province_name %></p>
+<p><strong>Phone:</strong> <%= @customer.phone %></p>
 
-<%= form_with model: @order, url: orders_path do |f| %>
-  <h2>please fill in your data</h2>
-  <%= fields_for @customer do |customer_form| %>
-  <%= customer_form.hidden_field :id %> 
-    <%= customer_form.label :name %>
-    <%= customer_form.text_field :name %>
+<h2>Cart Summary</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @cart.items.each do |item| %>
+      <tr>
+        <td><%= item.product.name %></td>
+        <td><%= item.quantity %></td>
+        <td><%= number_to_currency(item.product.price) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<p><strong>Total Amount:</strong> <%= number_to_currency(@cart.total_amount) %></p>
 
-    <%= customer_form.label :email %>
-    <%= customer_form.email_field :email %>
+<h2>Taxes</h2>
+<p><strong>GST:</strong> <%= number_to_currency(@taxes[:gst]) %></p>
+<p><strong>PST:</strong> <%= number_to_currency(@taxes[:pst]) %></p>
+<p><strong>HST:</strong> <%= number_to_currency(@taxes[:hst]) %></p>
+<p><strong>Total Tax:</strong> <%= number_to_currency(@taxes[:gst] + @taxes[:pst] + @taxes[:hst]) %></p>
 
-    <%= customer_form.label :address %>
-    <%= customer_form.text_field :address %>
-
-    <%= customer_form.label :province %>
-    <%= customer_form.text_field :province %>
-
-    <%= customer_form.label :phone %>
-    <%= customer_form.phone_field :phone %>
-  <% end %>
-
-
-
-  <%= f.submit "submit" %>
-  
-<% end %>

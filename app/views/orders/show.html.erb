@@ -1,43 +1,33 @@
-<h1>Order Details</h1>
-
 <h2>Customer Information</h2>
-<p><strong>Name:</strong> <%= @order.customer.name %></p>
-<p><strong>Email:</strong> <%= @order.customer.email %></p>
-<p><strong>Address:</strong> <%= @order.customer.address %></p>
-<p><strong>Province:</strong> <%= @order.customer.province %></p>
-<p><strong>Phone:</strong> <%= @order.customer.phone %></p>
+<p><strong>Name:</strong> <%= @customer.name %></p>
+<p><strong>Email:</strong> <%= @customer.email %></p>
+<p><strong>Address:</strong> <%= @customer.address %></p>
+<p><strong>Province:</strong> <%= @customer.province.province_name %></p>
+<p><strong>Phone:</strong> <%= @customer.phone %></p>
 
-<h2>Order Information</h2>
+<h2>Cart Summary</h2>
 <table>
   <thead>
     <tr>
       <th>Product</th>
       <th>Quantity</th>
       <th>Price</th>
-      <th>Tax</th>
-      <th>Total</th>
     </tr>
   </thead>
   <tbody>
-    <% @order.order_items.each do |item| %>
+    <% @cart.items.each do |item| %>
       <tr>
         <td><%= item.product.name %></td>
         <td><%= item.quantity %></td>
-        <td><%= number_to_currency(item.price) %></td>
-        <td>
-          <% tax = Tax.find(item.tax_id) %>
-          <% tax_amount = item.price * tax.gst + item.price * tax.pst + item.price * tax.hst %>
-          <%= number_to_currency(tax_amount) %>
-        </td>
-        <td><%= number_to_currency(item.price + tax_amount) %></td>
+        <td><%= number_to_currency(item.product.price) %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
+<p><strong>Total Amount:</strong> <%= number_to_currency(@cart.total_amount) %></p>
 
-<h2>Summary</h2>
-<p><strong>Total Amount:</strong> <%= number_to_currency(@order.total_amount) %></p>
-<p><strong>GST:</strong> <%= number_to_currency(@order.gst) %></p>
-<p><strong>PST:</strong> <%= number_to_currency(@order.pst) %></p>
-<p><strong>HST:</strong> <%= number_to_currency(@order.hst) %></p>
-<p><strong>Total (Including Taxes):</strong> <%= number_to_currency(@order.total_amount + @order.gst + @order.pst + @order.hst) %></p>
+<h2>Taxes</h2>
+<p><strong>GST:</strong> <%= number_to_currency(@taxes[:gst]) %></p>
+<p><strong>PST:</strong> <%= number_to_currency(@taxes[:pst]) %></p>
+<p><strong>HST:</strong> <%= number_to_currency(@taxes[:hst]) %></p>
+<p><strong>Total Tax:</strong> <%= number_to_currency(@taxes[:gst] + @taxes[:pst] + @taxes[:hst]) %></p>

@@ -1,0 +1,41 @@
+<!-- app/views/customers/new.html.erb -->
+
+<h1>Create a New Customer</h1>
+
+<%= form_with model: @customer, local: true do |form| %>
+  <div class="form-group">
+    <%= form.label :name, "Name" %>
+    <%= form.text_field :name, class: "form-control", placeholder: "Enter customer name" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :email, "Email" %>
+    <%= form.email_field :email, class: "form-control", placeholder: "Enter customer email" %>
+  </div>
+  <div class="form-group">
+    <%= form.label :phone, "Phone" %>
+    <%= form.phone_field :phone, class: "form-control", placeholder: "Enter customer phone number" %>
+  </div>
+   <div class="form-group">
+    <%= form.label :postal_code, "Postal Code" %>
+    <%= form.phone_field :postal_code, class: "form-control", placeholder: "Enter customer postal_code" %>
+  </div>
+    <div class="form-group">
+    <%= form.label :address, "Address" %>
+    <%= form.phone_field :address, class: "form-control", placeholder: "Enter customer address" %>
+  </div>
+  <div class="form-group">
+    <%= form.label :province_name, "Province Name" %>
+    <%= form.text_field :province_name, class: "form-control", placeholder: "Enter province name" %>
+  </div>
+ <div class="form-group">
+    <%= form.label :city, "City" %>
+    <%= form.text_field :city, class: "form-control", placeholder: "Enter city" %>
+  </div>
+  <div class="form-group">
+    <%= form.submit "Create customer", class: "btn btn-primary" %>
+  </div>
+<% end %>
+
+<%= link_to 'Back', customers_path, class: 'btn btn-secondary' %>
+

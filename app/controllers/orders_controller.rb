@@ -1,79 +1,72 @@
 class OrdersController < ApplicationController
-
-
   def new
     @cart = Cart.find(session[:cart_id])
     @order = Order.new
-    @customer = Customer.new(province: 'Manitoba')  # 初始化一个默认值
-    @taxes = calculate_taxes(@customer.province, @cart.total_amount) if @customer.province.present?
+    @customer = Customer.find_by(id: params[:customer_id])
+    if @cart.present? && @customer.present?
+      @taxes = calculate_order_taxes(@cart.items)
+    end
+    @order_items = @order.order_items
   end
 
   def create
     @cart = Cart.find(session[:cart_id])
     @customer = Customer.find_or_initialize_by(email: customer_params[:email])
 
-    # If the customer is new, set their attributes and save
-    if @customer.new_record?
-      @customer.assign_attributes(customer_params)
-      if @customer.save
-        create_order(@customer)
-      else
-        render :new # or handle the case when customer saving fails
-      end
-    else
+    @customer.assign_attributes(customer_params)
+    @province = Province.find_by(province_name: customer_params[:province_name])
+    @customer.province = @province if @province
+
+    if @customer.save
       create_order(@customer)
-    end
-  end
-
-  private
-
-  def create_order(customer)
-    @order = customer.orders.build
-
-    # Calculate total_amount, gst, pst, hst dynamically based on cart items
-    taxes = calculate_taxes(customer.province, @cart.total_amount)
-    @order.total_amount = @cart.total_amount
-    @order.gst = taxes[:gst]
-    @order.pst = taxes[:pst]
-    @order.hst = taxes[:hst]
-
-    if @order.save
-      @cart.items.each do |item|
-        # Find the tax_id associated with the item's product's province
-        tax = Tax.find_by(province: customer.province)
-        @order.order_items.create(product: item.product, quantity: item.quantity, price: item.product.price, tax_id: tax.id)
-      end
-      session[:cart_id] = nil
-      redirect_to order_path(@order), notice: 'Order placed successfully'
+      redirect_to order_path(@order), notice: 'Order created successfully.'
     else
       render :new
     end
   end
 
-  def calculate_taxes(province, total_amount)
-    tax = Tax.find_by(province: province)
-
-    if tax.present?
-      gst_amount = total_amount * tax.gst
-      pst_amount = total_amount * tax.pst
-      hst_amount = total_amount * tax.hst
-      { gst: gst_amount, pst: pst_amount, hst: hst_amount }
-    else
-      # Handle the case where tax record for the province is not found
-      { gst: 0, pst: 0, hst: 0 }
-    end
-  end
   def show
     @order = Order.find(params[:id])
+    @customer = @order.customer
+    @order_items = @order.order_items
+    @taxes = calculate_order_taxes(@order_items)
   end
 
   private
 
+  def create_order(customer)
+    @order = customer.orders.build(total_amount: @cart.total_amount, status: 'pending')
+
+    if @order.save
+      @cart.items.each do |item|
+        tax = Tax.find_by(province: customer.province)
+        @order.order_items.create(product: item.product, quantity: item.quantity, price: item.product.price, tax: tax)
+      end
+      session[:cart_id] = nil # 清空购物车
+    else
+      render :new
+    end
+  end
+
+  def calculate_order_taxes(order_items)
+    gst_total = 0
+    pst_total = 0
+    hst_total = 0
+
+    order_items.each do |item|
+      gst_total += item.price * item.quantity * item.tax.gst
+      pst_total += item.price * item.quantity * item.tax.pst
+      hst_total += item.price * item.quantity * item.tax.hst
+    end
+
+    { gst: gst_total, pst: pst_total, hst: hst_total }
+  end
+
   def customer_params
-    params.require(:customer).permit(:name, :email, :address, :province, :phone)
+    params.require(:customer).permit(:name, :email, :address, :city, :postal_code, :province_name, :phone)
   end
 
   def order_params
-    params.require(:order).permit(:total_amount, :gst, :pst, :hst) # Add other order attributes if needed
+    params.require(:order).permit(:total_amount, :status)
   end
 end
