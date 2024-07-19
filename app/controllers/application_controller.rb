@@ -1,11 +1,10 @@
 class ApplicationController < ActionController::Base
-  # helper_method :calculate_taxes
+  before_action :configure_permitted_parameters, if: :devise_controller?
 
-  # def calculate_taxes(province, total_amount)
-  #   tax = Tax.find_by(province: province)
-  #   gst_amount = total_amount * tax.gst
-  #   pst_amount = total_amount * tax.pst
-  #   hst_amount = total_amount * tax.hst
-  #   { gst: gst_amount, pst: pst_amount, hst: hst_amount }
-  # end
+  protected
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :address, :city, :postal_code, :phone, :province_id])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :address, :city, :postal_code, :phone, :province_id])
+  end
 end

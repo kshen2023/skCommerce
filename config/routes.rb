@@ -74,7 +74,7 @@
 #   # root "posts#index"
 # end
 Rails.application.routes.draw do
-
+  devise_for :customers
   post 'complete_checkout', to: 'carts#complete_checkout', as: 'complete_checkout'
   resources :checkouts, only: [:new, :create]
   resources :orders, only: [:index, :show]
