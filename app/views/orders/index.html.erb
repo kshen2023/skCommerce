@@ -1,0 +1,11 @@
+<h1>All Orders</h1>
+
+<ul>
+  <% @orders.each do |order| %>
+    <li>
+      <%= link_to "Order ##{order.id} - Total: #{number_to_currency(order.total_amount)}", order_path(order) %>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to 'Back to Products', products_path, class: 'btn btn-secondary' %>

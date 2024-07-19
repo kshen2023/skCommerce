@@ -1,4 +1,6 @@
 # # Rails.application.routes.draw do
+  # get 'checkouts/new'
+  # get 'checkouts/create'
 #   get 'carts/show'
 #   get 'carts/add_item'
 #   get 'carts/remove_item'
@@ -74,8 +76,9 @@
 Rails.application.routes.draw do
 
   post 'complete_checkout', to: 'carts#complete_checkout', as: 'complete_checkout'
-
-  resources :orders, only: [:new, :create, :show]
+  resources :checkouts, only: [:new, :create]
+  resources :orders, only: [:index, :show]
+  # resources :orders, only: [:new, :create, :show]
   resources :customers, only: [:new, :create, :show]
   # Categories routes
   resources :categories, only: [:index, :show] do

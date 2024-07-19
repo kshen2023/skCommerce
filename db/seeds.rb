@@ -10,34 +10,110 @@
 require 'csv'
 # Seed taxes with province references
 # Seed provinces with descriptions
-alberta = Province.find_or_create_by(province_name: 'Alberta', province_description: 'Province in western Canada')
-bc = Province.find_or_create_by(province_name: 'British Columbia', province_description: 'Province on the west coast of Canada')
-manitoba = Province.find_or_create_by(province_name: 'Manitoba', province_description: 'Province in central Canada')
-ontario = Province.find_or_create_by(province_name: 'Ontario', province_description: 'Province in east-central Canada')
-quebec = Province.find_or_create_by(province_name: 'Quebec', province_description: 'Province in east-central Canada')
-saskatchewan = Province.find_or_create_by(province_name: 'Saskatchewan', province_description: 'Province in central Canada')
-newfoundland = Province.find_or_create_by(province_name: 'Newfoundland and Labrador', province_description: 'Province in eastern Canada')
-nova_scotia = Province.find_or_create_by(province_name: 'Nova Scotia', province_description: 'Province in eastern Canada')
-new_brunswick = Province.find_or_create_by(province_name: 'New Brunswick', province_description: 'Province in eastern Canada')
-prince_edward_island = Province.find_or_create_by(province_name: 'Prince Edward Island', province_description: 'Province in eastern Canada')
-northwest_territories = Province.find_or_create_by(province_name: 'Northwest Territories', province_description: 'Territory in northern Canada')
-nunavut = Province.find_or_create_by(province_name: 'Nunavut', province_description: 'Territory in northern Canada')
-yukon = Province.find_or_create_by(province_name: 'Yukon', province_description: 'Territory in northwestern Canada')
+alberta = Province.find_or_create_by(
+  province_name: 'Alberta',
+  gst_rate: 0.05,
+  pst_rate: 0,
+  hst_rate: 0,
 
+)
 
-alberta_tax = Tax.find_or_create_by(gst: 0.05, pst: 0, hst: 0, start_date: '2023-01-01')
-bc_tax = Tax.find_or_create_by(gst: 0.05, pst: 0.07, hst: 0, start_date: '2023-01-01')
-manitoba_tax = Tax.find_or_create_by(gst: 0.05, pst: 0.07, hst: 0, start_date: '2023-01-01')
-ontario_tax = Tax.find_or_create_by(gst: 0, pst: 0, hst: 0.13, start_date: '2023-01-01')
-quebec_tax = Tax.find_or_create_by(gst: 0.05, pst: 0.09975, hst: 0, start_date: '2023-01-01')
-new_brunswick_tax = Tax.find_or_create_by( gst: 0, pst: 0, hst: 0.15, start_date: '2023-01-01')
-newfoundland_labrador_tax = Tax.find_or_create_by( gst: 0, pst: 0, hst: 0.15, start_date: '2023-01-01')
-northwest_territories_tax = Tax.find_or_create_by( gst: 0.05, pst: 0, hst: 0, start_date: '2023-01-01')
-nova_scotia_tax = Tax.find_or_create_by(gst: 0, pst: 0, hst: 0.15, start_date: '2023-01-01')
-nunavut_tax = Tax.find_or_create_by(gst: 0.05, pst: 0, hst: 0, start_date: '2023-01-01')
-pei_tax = Tax.find_or_create_by(gst: 0, pst: 0, hst: 0.15, start_date: '2023-01-01')
-saskatchewan_tax = Tax.find_or_create_by(gst: 0.05, pst: 0.06, hst: 0, start_date: '2023-01-01')
-yukon_tax = Tax.find_or_create_by(gst: 0.05, pst: 0, hst: 0, start_date: '2023-01-01')
+bc = Province.find_or_create_by(
+  province_name: 'British Columbia',
+  gst_rate: 0.05,
+  pst_rate: 0.07,
+  hst_rate: 0
+
+)
+
+manitoba = Province.find_or_create_by(
+  province_name: 'Manitoba',
+  gst_rate: 0.05,
+  pst_rate: 0.07,
+  hst_rate: 0
+
+)
+
+ontario = Province.find_or_create_by(
+  province_name: 'Ontario',
+  gst_rate: 0,
+  pst_rate: 0,
+  hst_rate: 0.13
+
+)
+
+quebec = Province.find_or_create_by(
+  province_name: 'Quebec',
+  gst_rate: 0.05,
+  pst_rate: 0,
+  hst_rate: 0
+
+)
+
+saskatchewan = Province.find_or_create_by(
+  province_name: 'Saskatchewan',
+  gst_rate: 0.05,
+  pst_rate: 0.06,
+  hst_rate: 0
+
+)
+
+newfoundland = Province.find_or_create_by(
+  province_name: 'Newfoundland and Labrador',
+  gst_rate: 0,
+  pst_rate: 0,
+  hst_rate: 0.15
+
+)
+
+nova_scotia = Province.find_or_create_by(
+  province_name: 'Nova Scotia',
+  gst_rate: 0,
+  pst_rate: 0,
+  hst_rate: 0.15
+
+)
+
+new_brunswick = Province.find_or_create_by(
+  province_name: 'New Brunswick',
+  gst_rate: 0,
+  pst_rate: 0,
+  hst_rate: 0.15
+
+)
+
+prince_edward_island = Province.find_or_create_by(
+  province_name: 'Prince Edward Island',
+  gst_rate: 0,
+  pst_rate: 0,
+  hst_rate: 0.15
+
+)
+
+northwest_territories = Province.find_or_create_by(
+  province_name: 'Northwest Territories',
+  gst_rate: 0.05,
+  pst_rate: 0,
+  hst_rate: 0
+
+)
+
+nunavut = Province.find_or_create_by(
+  province_name: 'Nunavut',
+  gst_rate: 0.05,
+  pst_rate: 0,
+  hst_rate: 0
+
+)
+
+yukon = Province.find_or_create_by(
+  province_name: 'Yukon',
+  gst_rate: 0.05,
+  pst_rate: 0,
+  hst_rate: 0
+
+)
+
 
 
 csv_file_path = Rails.root.join('db', 'seeds', 'NIKE.csv')

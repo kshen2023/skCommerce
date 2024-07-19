@@ -2,10 +2,9 @@ class CreateOrderItems < ActiveRecord::Migration[7.1]
   def change
     create_table :order_items do |t|
       t.references :order, null: false, foreign_key: true
-      t.references :item, foreign_key: true
-      t.integer :quantity
-      t.decimal :price
-      t.references :tax, foreign_key: true  # Add tax_id as a foreign key
+      t.references :product, null: false, foreign_key: true
+      t.integer :quantity, null: false
+      t.decimal :price, null: false
 
       t.timestamps
     end

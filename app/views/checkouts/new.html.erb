@@ -1,0 +1,53 @@
+<h1>Checkout</h1>
+
+<%= form_with model: @customer, url: checkouts_path, local: true do |form| %>
+  <div class="form-group">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :email %>
+    <%= form.email_field :email, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :address %>
+    <%= form.text_field :address, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :city %>
+    <%= form.text_field :city, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :postal_code %>
+    <%= form.text_field :postal_code, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :phone %>
+    <%= form.text_field :phone, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :province_id, 'Province' %>
+    <%= form.collection_select :province_id, Province.all, :id, :province_name, {}, class: 'form-control' %>
+  </div>
+
+  <h2>Invoice</h2>
+  <ul>
+    <% @cart.each do |item| %>
+      <% product = Product.find(item['product_id']) %>
+      <li><%= product.name %> - <%= item['quantity'] %> x <%= number_to_currency(product.price) %> = <%= number_to_currency(product.price.to_f * item['quantity']) %></li>
+    <% end %>
+  </ul>
+  <p>Subtotal: <%= number_to_currency(@cart.sum { |item| Product.find(item['product_id']).price.to_f * item['quantity'] }) %></p>
+
+  <p>Total: <%= number_to_currency(@total) %></p>
+
+  <%= form.submit 'Complete Checkout', class: 'btn btn-primary' %>
+<% end %>
+
+<%= link_to 'Back to Cart', cart_path, class: 'btn btn-secondary' %>

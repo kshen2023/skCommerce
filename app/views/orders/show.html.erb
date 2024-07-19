@@ -1,33 +1,24 @@
-<h2>Customer Information</h2>
-<p><strong>Name:</strong> <%= @customer.name %></p>
-<p><strong>Email:</strong> <%= @customer.email %></p>
-<p><strong>Address:</strong> <%= @customer.address %></p>
-<p><strong>Province:</strong> <%= @customer.province.province_name %></p>
-<p><strong>Phone:</strong> <%= @customer.phone %></p>
+<h1>Order Details</h1>
 
-<h2>Cart Summary</h2>
-<table>
-  <thead>
-    <tr>
-      <th>Product</th>
-      <th>Quantity</th>
-      <th>Price</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @cart.items.each do |item| %>
-      <tr>
-        <td><%= item.product.name %></td>
-        <td><%= item.quantity %></td>
-        <td><%= number_to_currency(item.product.price) %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-<p><strong>Total Amount:</strong> <%= number_to_currency(@cart.total_amount) %></p>
+<p>Order ID: <%= @order.id %></p>
+<p>Customer: <%= @order.customer.name %></p>
+<p>Status: <%= @order.status %></p>
+<p>Subtotal: <%= number_to_currency(@order.subtotal) %></p>
+
+<h2>Items</h2>
+<ul>
+  <% @order_items.each do |item| %>
+    <li><%= item.product.name %> - <%= item.quantity %> x <%= number_to_currency(item.price) %> = <%= number_to_currency(item.price.to_f * item.quantity) %></li>
+  <% end %>
+</ul>
 
 <h2>Taxes</h2>
-<p><strong>GST:</strong> <%= number_to_currency(@taxes[:gst]) %></p>
-<p><strong>PST:</strong> <%= number_to_currency(@taxes[:pst]) %></p>
-<p><strong>HST:</strong> <%= number_to_currency(@taxes[:hst]) %></p>
-<p><strong>Total Tax:</strong> <%= number_to_currency(@taxes[:gst] + @taxes[:pst] + @taxes[:hst]) %></p>
+<p>GST: <%= number_to_currency(@order.gst) %></p>
+<p>PST: <%= number_to_currency(@order.pst) %></p>
+<p>HST: <%= number_to_currency(@order.hst) %></p>
+<p>Total Taxes: <%= number_to_currency(@order.total_taxes) %></p>
+
+<h2>Total Amount</h2>
+<p>Total: <%= number_to_currency(@order.total_amount) %></p>
+
+<%= link_to 'Back to Orders', orders_path, class: 'btn btn-secondary' %>
