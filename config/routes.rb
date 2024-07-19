@@ -88,6 +88,7 @@ Rails.application.routes.draw do
     post 'add_item', to: 'carts#add_item'
     delete 'remove_item', to: 'carts#remove_item'
   end
+
   # Products routes
   resources :products do
     collection do
