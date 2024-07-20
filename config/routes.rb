@@ -11,6 +11,11 @@ Rails.application.routes.draw do
   resources :orders, only: [:index, :show]
   # resources :orders, only: [:new, :create, :show]
   resources :customers, only: [:new, :create, :show]
+  resources :customers, only: [:new, :create, :show] do
+    member do
+      get :past_orders
+    end
+  end
   # resources :customers, only: [:show]
   # Categories routes
   resources :categories, only: [:index, :show] do
@@ -39,7 +44,11 @@ Rails.application.routes.draw do
   # Admin routes
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
-
+  # namespace :admin do
+  #   get 'orders/index'
+  #   get 'orders/show'
+  #   resources :orders, only: [:index, :show]
+  # end
   # Cart routes
 
 

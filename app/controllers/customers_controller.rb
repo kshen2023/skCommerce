@@ -3,6 +3,10 @@ class CustomersController < ApplicationController
   def new
     @customer = Customer.new
   end
+  def past_orders
+    @customer = current_customer
+    @orders = @customer.orders.includes(:order_items)
+  end
 
   def create
     province_name = customer_params[:province_name]
