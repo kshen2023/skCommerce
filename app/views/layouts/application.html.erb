@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html>
+  <%# 4242 4242 4242 4242 %>
   <head>
     <title>Sk3</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+<%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+<%= javascript_importmap_tags %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+
     <%= javascript_importmap_tags %>
   </head>
  <body>
@@ -38,6 +41,10 @@
     <% end %>
     </nav>
   </header>
+   <% flash.each do |key, value| %>
+    <div class="alert alert-<%= key %>"><%= value %></div>
+  <% end %>
+
   <%= yield %>
 </body>
 </html>

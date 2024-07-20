@@ -1,14 +1,17 @@
-<h1>Order Details</h1>
+<!-- app/views/orders/show.html.erb -->
+<h1>Order Summary</h1>
 
 <p>Order ID: <%= @order.id %></p>
 <p>Customer: <%= @order.customer.name %></p>
 <p>Status: <%= @order.status %></p>
-<p>Subtotal: <%= number_to_currency(@order.subtotal) %></p>
+<p>Total: <%= number_to_currency(@order.total) %></p>
 
 <h2>Items</h2>
 <ul>
   <% @order_items.each do |item| %>
-    <li><%= item.product.name %> - <%= item.quantity %> x <%= number_to_currency(item.price) %> = <%= number_to_currency(item.price.to_f * item.quantity) %></li>
+    <li>
+      <%= item.product.name %> - <%= item.quantity %> x <%= number_to_currency(item.price) %> = <%= number_to_currency(item.price.to_f * item.quantity) %>
+    </li>
   <% end %>
 </ul>
 
@@ -16,9 +19,98 @@
 <p>GST: <%= number_to_currency(@order.gst) %></p>
 <p>PST: <%= number_to_currency(@order.pst) %></p>
 <p>HST: <%= number_to_currency(@order.hst) %></p>
-<p>Total Taxes: <%= number_to_currency(@order.total_taxes) %></p>
+<p>Total Amount (including taxes): <%= number_to_currency(@total_with_taxes) %></p>
 
-<h2>Total Amount</h2>
-<p>Total: <%= number_to_currency(@order.total_amount) %></p>
+<h2>Payment</h2>
+<%= form_tag order_payments_path(@order), method: :post, id: 'payment-form' do %>
+  <div class="form-row">
+    <label for="card-element">
+      Credit or debit card
+    </label>
+    <div id="card-element">
+      <!-- A Stripe Element will be inserted here. -->
+    </div>
+
+    <!-- Used to display form errors. -->
+    <div id="card-errors" role="alert"></div>
+  </div>
+
+  <%= hidden_field_tag :stripeToken %>
+  <%= submit_tag "Submit Payment", class: 'btn btn-primary' %>
+<% end %>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Create a Stripe client.
+    var stripe = Stripe('<%= Rails.application.credentials.dig(:stripe, :public_key) %>');
+
+    // Create an instance of Elements.
+    var elements = stripe.elements();
+
+    // Custom styling can be passed to options when creating an Element.
+    var style = {
+      base: {
+        color: '#32325d',
+        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+        fontSmoothing: 'antialiased',
+        fontSize: '16px',
+        '::placeholder': {
+          color: '#aab7c4'
+        }
+      },
+      invalid: {
+        color: '#fa755a',
+        iconColor: '#fa755a'
+      }
+    };
+
+    // Create an instance of the card Element.
+    var card = elements.create('card', {style: style});
+
+    // Add an instance of the card Element into the `card-element` <div>.
+    card.mount('#card-element');
+
+    // Handle real-time validation errors from the card Element.
+    card.on('change', function(event) {
+      var displayError = document.getElementById('card-errors');
+      if (event.error) {
+        displayError.textContent = event.error.message;
+      } else {
+        displayError.textContent = '';
+      }
+    });
+
+    // Handle form submission.
+    var form = document.getElementById('payment-form');
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      stripe.createToken(card).then(function(result) {
+        if (result.error) {
+          // Inform the customer that there was an error.
+          var errorElement = document.getElementById('card-errors');
+          errorElement.textContent = result.error.message;
+        } else {
+          // Send the token to your server.
+          stripeTokenHandler(result.token);
+        }
+      });
+    });
+
+    // Submit the form with the Stripe token.
+    function stripeTokenHandler(token) {
+      var form = document.getElementById('payment-form');
+      var hiddenInput = document.createElement('input');
+      hiddenInput.setAttribute('type', 'hidden');
+      hiddenInput.setAttribute('name', 'stripeToken');
+      hiddenInput.setAttribute('value', token.id);
+      form.appendChild(hiddenInput);
+
+      // Submit the form.
+      form.submit();
+    }
+  });
+</script>
 
 <%= link_to 'Back to Orders', orders_path, class: 'btn btn-secondary' %>

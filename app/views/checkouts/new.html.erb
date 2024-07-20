@@ -1,6 +1,6 @@
 <h1>Checkout</h1>
 
-<%= form_with model: @customer, url: checkouts_path, local: true do |form| %>
+<%= form_with model: @customer, url: checkouts_path, method: :post, local: true do |form| %>
   <div class="form-group">
     <%= form.label :name %>
     <%= form.text_field :name, class: 'form-control' %>
@@ -44,8 +44,8 @@
     <% end %>
   </ul>
   <p>Subtotal: <%= number_to_currency(@cart.sum { |item| Product.find(item['product_id']).price.to_f * item['quantity'] }) %></p>
-
   <p>Total: <%= number_to_currency(@total) %></p>
+
 
   <%= form.submit 'Complete Checkout', class: 'btn btn-primary' %>
 <% end %>
