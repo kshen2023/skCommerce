@@ -1,4 +1,5 @@
 class CustomersController < ApplicationController
+  before_action :authenticate_customer!
   def new
     @customer = Customer.new
   end
@@ -22,6 +23,7 @@ class CustomersController < ApplicationController
   end
 
   def show
+    Rails.logger.debug("Customer ID: #{params[:id]}")
     @customer = Customer.find(params[:id])
     @orders = @customer.orders
   end
