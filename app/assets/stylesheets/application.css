@@ -4,6 +4,8 @@
     justify-content: space-between;
 }
 
+@import "application.tailwind";
+
 .product {
     border: 1px solid #ddd;
     padding: 10px;

@@ -1,9 +1,10 @@
 ActiveAdmin.register Order do
-  permit_params :customer_id, :total, :status, order_items_attributes: [:id, :order_id, :product_id, :quantity, :price, :_destroy]
+  permit_params :customer_id, :total, :status, :stripe_payment_id, order_items_attributes: [:id, :order_id, :product_id, :quantity, :price, :_destroy]
 
   index do
     selectable_column
     id_column
+    column :stripe_payment_id
     column :customer
     column :status
     column :total do |order|
@@ -15,6 +16,7 @@ ActiveAdmin.register Order do
   show do
     attributes_table do
       row :id
+      row :stripe_payment_id
       row :customer
       row :status
       row :total do |order|
@@ -57,6 +59,7 @@ ActiveAdmin.register Order do
       f.input :customer
       f.input :status
       f.input :total
+      f.input :stripe_payment_id
     end
 
     f.inputs "Order Items" do
@@ -69,4 +72,9 @@ ActiveAdmin.register Order do
 
     f.actions
   end
+
+  filter :stripe_payment_id, as: :string
+  filter :customer
+  filter :status
+  filter :total
 end

@@ -1,55 +1,55 @@
-<h2>Sign up</h2>
+<h2 class="text-2xl font-bold mb-6">Sign up</h2>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
 
-  <div class="form-group">
-    <%= f.label :name %>
-    <%= f.text_field :name, autofocus: true, class: 'form-control' %>
+  <div class="mb-4">
+    <%= f.label :name, class: 'block text-sm font-medium text-gray-700' %>
+    <%= f.text_field :name, autofocus: true, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
   </div>
 
-  <div class="form-group">
-    <%= f.label :email %>
-    <%= f.email_field :email, class: 'form-control' %>
+  <div class="mb-4">
+    <%= f.label :email, class: 'block text-sm font-medium text-gray-700' %>
+    <%= f.email_field :email, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
   </div>
 
-  <div class="form-group">
-    <%= f.label :password %>
-    <%= f.password_field :password, autocomplete: "new-password", class: 'form-control' %>
+  <div class="mb-4">
+    <%= f.label :password, class: 'block text-sm font-medium text-gray-700' %>
+    <%= f.password_field :password, autocomplete: "new-password", class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
   </div>
 
-  <div class="form-group">
-    <%= f.label :password_confirmation %>
-    <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control' %>
+  <div class="mb-4">
+    <%= f.label :password_confirmation, class: 'block text-sm font-medium text-gray-700' %>
+    <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
   </div>
 
-  <div class="form-group">
-    <%= f.label :address %>
-    <%= f.text_field :address, class: 'form-control' %>
+  <div class="mb-4">
+    <%= f.label :address, class: 'block text-sm font-medium text-gray-700' %>
+    <%= f.text_field :address, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
   </div>
 
-  <div class="form-group">
-    <%= f.label :city %>
-    <%= f.text_field :city, class: 'form-control' %>
+  <div class="mb-4">
+    <%= f.label :city, class: 'block text-sm font-medium text-gray-700' %>
+    <%= f.text_field :city, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
   </div>
 
-  <div class="form-group">
-    <%= f.label :postal_code %>
-    <%= f.text_field :postal_code, class: 'form-control' %>
+  <div class="mb-4">
+    <%= f.label :postal_code, class: 'block text-sm font-medium text-gray-700' %>
+    <%= f.text_field :postal_code, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
   </div>
 
-  <div class="form-group">
-    <%= f.label :phone %>
-    <%= f.text_field :phone, class: 'form-control' %>
+  <div class="mb-4">
+    <%= f.label :phone, class: 'block text-sm font-medium text-gray-700' %>
+    <%= f.text_field :phone, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
   </div>
 
-  <div class="form-group">
-    <%= f.label :province_id, 'Province' %>
-    <%= f.collection_select :province_id, Province.all, :id, :province_name, {}, class: 'form-control' %>
+  <div class="mb-4">
+    <%= f.label :province_id, 'Province', class: 'block text-sm font-medium text-gray-700' %>
+    <%= f.collection_select :province_id, Province.all, :id, :province_name, {}, class: 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
   </div>
 
   <div class="actions">
-    <%= f.submit "Sign up", class: 'btn btn-primary' %>
+    <%= f.submit "Sign up", class: 'w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500' %>
   </div>
 <% end %>
 
