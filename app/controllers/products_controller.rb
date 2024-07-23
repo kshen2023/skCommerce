@@ -30,7 +30,9 @@ class ProductsController < ApplicationController
 
     render :index
   end
-
+  def product_params
+    params.require(:product).permit(:name, :description, :product_link, :price, :img_src, :sub_category_id, tag: [])
+  end
   def search_by_category
     category = Category.find(params[:category_id])
     if params[:keyword].present?

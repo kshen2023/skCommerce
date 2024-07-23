@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html>
-  <%# 4242 4242 4242 4242 %>
-  <head>
-    <title>Sk3</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
-<%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-<%= javascript_importmap_tags %>
-    <%= javascript_importmap_tags %>
-  </head>
- <body>
+<head>
+  <title>Sk3</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_include_tag "application", "data-turbo-track": "reload" %>
+</head>
+<body class="bg-light">
   <%= render 'layouts/header' %>
+  <div class="container mt-4">
     <% if flash[:notice] %>
-    <p class="notice"><%= custom_flash_message %></p>
-  <% end %>
-  <%= yield %>
+      <div class="alert alert-info"><%= flash[:notice] %></div>
+    <% end %>
+    <%= yield %>
+  </div>
+  <%= javascript_include_tag 'application', 'data-turbo-track': 'reload' %>
 </body>
 </html>

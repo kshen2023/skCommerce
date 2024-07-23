@@ -1,15 +1,9 @@
-test:
-  service: Disk
-  root: <%= Rails.root.join("tmp/storage") %>
 
-local:
-  service: Disk
-  root: <%= Rails.root.join("storage") %>
 google:
   service: GCS
-  project: "your-project-id"
-  credentials: <%= Rails.root.join("path/to/your/service-account.json") %>
-  bucket: "your-bucket-name"
+  project: "vocal-affinity-427706-a4"
+  credentials: <%= Rails.root.join("config/vocal-affinity-427706-a4-6dd880f449c9.json") %>
+  bucket: "ruby2024"
 
 # Use bin/rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 # amazon:

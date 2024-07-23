@@ -4,7 +4,12 @@ class Product < ApplicationRecord
   has_many :cart_items
   has_many :product_tags
   has_many :tags, through: :product_tags
-  validates :name, uniqueness: { scope: :sub_category_id }, allow_nil: true
+  validates :name, presence: true
+  validates :description, presence: true
+  validates :product_link, presence: true
+  validates :price, presence: true, numericality: true
+  validates :img_src, presence: true
+  validates :sub_category_id, presence: true, numericality: { only_integer: true }
 
   def self.ransackable_attributes(auth_object = nil)
     ["created_at", "description", "id", "id_value", "img_src", "name", "price", "product_link", "sub_category_id", "tag_id","updated_at"]

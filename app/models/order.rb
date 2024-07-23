@@ -1,6 +1,9 @@
 class Order < ApplicationRecord
   belongs_to :customer
   has_many :order_items, dependent: :destroy
+  validates :customer_id, presence: true, numericality: { only_integer: true }
+  validates :total, presence: true, numericality: true
+  validates :status, presence: true
   def self.ransackable_associations(auth_object = nil)
     ["customer", "order_items"]
   end

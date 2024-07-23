@@ -5,9 +5,11 @@ gem 'activeadmin'
 gem 'devise'
 gem 'sassc'
 gem 'kaminari'
-gem 'tailwindcss-rails'
+# gem 'tailwindcss-rails'
 gem 'stripe'
 gem 'google-cloud-storage'
+gem 'bootstrap', '~> 5.0.2'
+gem 'jquery-rails'
 
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
