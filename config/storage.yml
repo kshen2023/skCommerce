@@ -5,6 +5,11 @@ test:
 local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
+google:
+  service: GCS
+  project: "your-project-id"
+  credentials: <%= Rails.root.join("path/to/your/service-account.json") %>
+  bucket: "your-bucket-name"
 
 # Use bin/rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 # amazon:

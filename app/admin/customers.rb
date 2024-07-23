@@ -1,54 +1,65 @@
 ActiveAdmin.register Customer do
-  permit_params :email, :name, :address, :city, :postal_code, :phone, :province_id
-
-  index do
-    selectable_column
-    id_column
-    column :email
-    column :name
-    column :created_at
-    actions
-  end
-
-  show do
-    attributes_table do
-      row :id
-      row :email
-      row :name
-      row :address
-      row :city
-      row :postal_code
-      row :phone
-      row :province
-      row :created_at
-      row :updated_at
-    end
-
-    panel "Orders" do
-      table_for customer.orders do
-        column :id
-        column :status
-        column :total do |order|
-          number_to_currency(order.total)
-        end
-        column :created_at
-        column "Details" do |order|
-          link_to "View", admin_order_path(order)
-        end
-      end
-    end
-  end
+  permit_params :name, :email, :address, :city, :postal_code, :phone, :province_id, :image
 
   form do |f|
-    f.inputs "Customer Details" do
-      f.input :email
+    f.inputs do
       f.input :name
+      f.input :email
       f.input :address
       f.input :city
       f.input :postal_code
       f.input :phone
       f.input :province
+      f.input :image, as: :file
     end
     f.actions
+  end
+
+  index do
+    selectable_column
+    id_column
+    column :name
+    column :email
+    column :address
+    column :city
+    column :postal_code
+    column :phone
+    column :province
+    column "Image" do |customer|
+      if customer.image.attached?
+        image_tag url_for(customer.image), size: "50x50"
+      else
+        "No image uploaded"
+      end
+    end
+    actions
+  end
+
+  filter :name
+  filter :email
+  filter :address
+  filter :city
+  filter :postal_code
+  filter :phone
+  filter :province
+
+  show do
+    attributes_table do
+      row :name
+      row :email
+      row :address
+      row :city
+      row :postal_code
+      row :phone
+      row :province
+      row :image do |customer|
+        if customer.image.attached?
+          image_tag url_for(customer.image)
+        else
+          "No image uploaded"
+        end
+      end
+    end
+    active_admin_comments
   end
 end

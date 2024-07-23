@@ -1,26 +1,22 @@
 Rails.application.routes.draw do
-  devise_for :customers
-  # devise_scope :customer do
-  #   delete 'sign_out', to: 'devise/sessions#destroy', as: :destroy_customer_session
-  # end
+  devise_for :customers, controllers: { sessions: 'customers/sessions' }
+
   devise_scope :customer do
     get 'sign_out', to: 'devise/sessions#destroy', as: :destroy_customer_session_get
   end
+
   post 'complete_checkout', to: 'carts#complete_checkout', as: 'complete_checkout'
   resources :checkouts, only: [:new, :create]
-  resources :orders, only: [:index, :show]
-
   resources :orders, only: [:index, :show, :create] do
     resources :payments, only: [:new, :create]
   end
-  # resources :orders, only: [:new, :create, :show]
-  resources :customers, only: [:new, :create, :show]
+
   resources :customers, only: [:new, :create, :show] do
     member do
       get :past_orders
     end
   end
-  # resources :customers, only: [:show]
+
   # Categories routes
   resources :categories, only: [:index, :show] do
     resources :products, only: [:index, :show]
@@ -48,13 +44,6 @@ Rails.application.routes.draw do
   # Admin routes
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
-  # namespace :admin do
-  #   get 'orders/index'
-  #   get 'orders/show'
-  #   resources :orders, only: [:index, :show]
-  # end
-  # Cart routes
-
 
   # Root route
   root 'products#index'

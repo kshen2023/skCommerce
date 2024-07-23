@@ -28,6 +28,15 @@
       <th>City</th>
       <td><%= @customer.city%></td>
     </tr>
+    <p>
+  <strong>Image:</strong>
+  <% if @customer.image.attached? %>
+    <%= image_tag @customer.image %>
+  <% else %>
+    No image uploaded
+  <% end %>
+</p>
+
   </tbody>
 </table>
 

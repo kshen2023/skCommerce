@@ -1,5 +1,5 @@
 ActiveAdmin.register Product do
-  permit_params :name, :description, :product_link, :price, :img_src, :sub_category_id
+  permit_params :name, :description, :product_link, :price, :img_src, :sub_category_id, tag_ids: []
 
   controller do
     def update
@@ -21,6 +21,9 @@ ActiveAdmin.register Product do
     column :price
     column :img_src
     column :sub_category
+    column :tag do |product|
+      product.tags.map(&:name).join(', ')
+    end
     actions
   end
 
@@ -29,7 +32,8 @@ ActiveAdmin.register Product do
   filter :product_link
   filter :price
   filter :sub_category
-
+  filter :tag
+  remove_filter :product_tags
   form do |f|
     f.inputs do
       f.input :name
@@ -38,6 +42,7 @@ ActiveAdmin.register Product do
       f.input :price
       f.input :img_src
       f.input :sub_category
+      f.input :tag, as: :check_boxes, collection: Tag.all
     end
     f.actions
   end

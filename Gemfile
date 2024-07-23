@@ -7,6 +7,7 @@ gem 'sassc'
 gem 'kaminari'
 gem 'tailwindcss-rails'
 gem 'stripe'
+gem 'google-cloud-storage'
 
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
