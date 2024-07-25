@@ -8,6 +8,10 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:account_update, keys: [:name, :address, :city, :postal_code,:image, :phone, :province_id])
   end
 
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:account_update, keys: [:image])
+  end
+
   def after_sign_in_path_for(resource)
     if resource.is_a?(Customer)
       session[:name] = resource.name

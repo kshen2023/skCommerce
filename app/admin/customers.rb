@@ -52,11 +52,19 @@ ActiveAdmin.register Customer do
       row :postal_code
       row :phone
       row :province
-      row :image do |customer|
+      row :image do
         if customer.image.attached?
-          image_tag url_for(customer.image)
+          div do
+            image_tag customer.image.variant(resize_to_limit: [50, 50])
+          end
+          div do
+            image_tag customer.image.variant(resize_to_limit: [300, 300])
+          end
+          div do
+            image_tag customer.image.variant(resize_to_limit: [600, 600])
+          end
         else
-          "No image uploaded"
+          "No image available"
         end
       end
     end

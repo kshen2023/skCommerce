@@ -35,7 +35,14 @@
     <%= f.label :image, "Image" %><br />
     <%= f.file_field :image, class: "form-control" %>
   </div>
-  
+ <div class="field">
+    <% if resource.image.attached? %>
+      <p>Current Image:</p>
+      <%# <%= image_tag resource.image.variant(resize_to_fit: [50, 50]) %><br> 
+      <%= image_tag resource.image.variant(resize_to_fit: [300, 300]) %><br>
+      <%# <%= image_tag resource.image.variant(resize_to_fit: [600, 600]) %>
+    <% end %>
+  </div>
   <div class="actions">
     <%= f.submit "Update" %>
   </div>

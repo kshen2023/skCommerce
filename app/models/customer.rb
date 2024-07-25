@@ -19,4 +19,5 @@ validates :postal_code, presence: true
 validates :phone, presence: true
 validates :province_id, presence: true, numericality: { only_integer: true }
 validates :encrypted_password, presence: true
+
 end

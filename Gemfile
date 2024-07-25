@@ -10,6 +10,8 @@ gem 'stripe'
 gem 'google-cloud-storage'
 gem 'bootstrap', '~> 5.0.2'
 gem 'jquery-rails'
+gem 'image_processing', '~> 1.2'
+
 
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
