@@ -12,7 +12,7 @@ gem 'bootstrap', '~> 5.0.2'
 gem 'jquery-rails'
 gem 'image_processing', '~> 1.2'
 gem 'rubocop', require: false
-gem 'wechat', '~> 0.15.0'
+
 
 
 
